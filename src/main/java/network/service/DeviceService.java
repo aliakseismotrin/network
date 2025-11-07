@@ -1,8 +1,11 @@
-package network;
+package network.service;
+
+import network.model.DeviceType;
+import network.model.Device;
 
 import java.util.List;
 
-public interface DeviceAPI {
+public interface DeviceService {
     void registerDevice(DeviceType type, String macAddress, String uplinkMacAddress);
 
     List<Device> getAllDevicesSorted();

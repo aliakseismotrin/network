@@ -1,6 +1,6 @@
 Description
 -----------------
-Network Project  
+Network  
 A Java application for managing a network deployment consisting of devices such as Gateways, Switches, and Access Points.  
 It supports both command-line interaction and a REST API for device registration, querying, and topology visualization.
 
@@ -24,7 +24,7 @@ REST API:
 
 Technologies
 -----------------
-- Java 17
+- Java 21
 - Maven
 - Spring Boot
 - Jackson (JSON)
@@ -34,14 +34,13 @@ Project Structure
 -----------------
 network/
 ├── pom.xml  
-├── devices.json  
 ├── NetworkApplication.postman_collection.json  
 ├── src/main/java/network/...  
 └── src/test/java/network/...
 
 Build & Run
 ------------
-1. Clone the repo:
+1. Clone the repo
 2. Build:
    mvn clean package
 3. Run CLI:
@@ -58,9 +57,6 @@ Example JSON for loading devices (devices.json):
 { "deviceType": "SWITCH", "macAddress": "AA:BB:CC:DD:EE:02", "uplinkMacAddress": "AA:BB:CC:DD:EE:01" },
 { "deviceType": "ACCESS_POINT", "macAddress": "AA:BB:CC:DD:EE:03", "uplinkMacAddress": "AA:BB:CC:DD:EE:02" }
 ]
-
-NOTE:  
-There is an example "devices.json" file in the root of the project.
 
 REST API
 ---------------------------

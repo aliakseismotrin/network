@@ -1,5 +1,8 @@
 package network;
 
+import network.model.Device;
+import network.model.DeviceType;
+import network.service.impl.DeviceServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,13 +10,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class NetworkManagerTest {
+class DeviceServiceImplTest {
 
-    private NetworkManager network;
+    private DeviceServiceImpl network;
 
     @BeforeEach
     void setUp() {
-        network = new NetworkManager();
+        network = new DeviceServiceImpl();
 
         // base structure
         network.registerDevice(DeviceType.GATEWAY, "AA:BB:CC:DD:EE:01", null);
