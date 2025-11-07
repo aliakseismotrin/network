@@ -1,18 +1,20 @@
-package network;
+package network.controller;
 
+import network.model.DeviceType;
+import network.service.impl.DeviceServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/devices")
 public class NetworkController {
 
-    private final NetworkManager networkManager = new NetworkManager();
+    private final DeviceServiceImpl deviceService = new DeviceServiceImpl();
 
     // Register device
     @PostMapping
     public String registerDevice(@RequestBody DeviceRequest req) {
         try {
-            networkManager.registerDevice(
+            deviceService.registerDevice(
                     DeviceType.valueOf(req.deviceType.toUpperCase()),
                     req.macAddress,
                     req.uplinkMacAddress);
@@ -26,14 +28,14 @@ public class NetworkController {
     @GetMapping
     public String getAllDevices() {
         StringBuilder sb = new StringBuilder();
-        networkManager.printDeviceListTo(sb);
+        deviceService.printDeviceListTo(sb);
         return sb.toString();
     }
 
     // Retrieve device by MAC
     @GetMapping("/{mac}")
     public String getDeviceByMac(@PathVariable String mac) {
-        return networkManager.getDeviceByMac(mac).toString();
+        return deviceService.getDeviceByMac(mac).toString();
     }
 
     // Retrieve full topology
@@ -52,9 +54,9 @@ public class NetworkController {
     private String captureTopology(String rootMac) {
         StringBuilder sb = new StringBuilder();
         if (rootMac == null) {
-            networkManager.printFullTopologyTo(sb);
+            deviceService.printFullTopologyTo(sb);
         } else {
-            networkManager.printTopologyFromTo(rootMac, sb);
+            deviceService.printTopologyFromTo(rootMac, sb);
         }
         return sb.toString();
     }

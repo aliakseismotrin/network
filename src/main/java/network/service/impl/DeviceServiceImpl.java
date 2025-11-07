@@ -1,9 +1,13 @@
-package network;
+package network.service.impl;
+
+import network.model.DeviceType;
+import network.model.Device;
+import network.service.DeviceService;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class NetworkManager implements DeviceAPI {
+public class DeviceServiceImpl implements DeviceService {
     private final Map<String, Device> devices = new HashMap<>();
 
     @Override

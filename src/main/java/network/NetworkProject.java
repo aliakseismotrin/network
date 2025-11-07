@@ -1,11 +1,16 @@
 package network;
 
+import network.model.Device;
+import network.model.DeviceType;
+import network.service.impl.DeviceServiceImpl;
+import network.utils.DeviceFileLoader;
+
 import java.util.Scanner;
 
-public class NetworkCLIProject {
+public class NetworkProject {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final NetworkManager networkManager = new NetworkManager();
+    private static final DeviceServiceImpl deviceService = new DeviceServiceImpl();
     private static final DeviceFileLoader fileLoader = new DeviceFileLoader();
 
     public static void main(String[] args) {
@@ -66,7 +71,7 @@ public class NetworkCLIProject {
         if (uplink.isEmpty()) uplink = null;
 
         try {
-            networkManager.registerDevice(type, mac, uplink);
+            deviceService.registerDevice(type, mac, uplink);
             System.out.println("Device registered successfully.");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -75,7 +80,7 @@ public class NetworkCLIProject {
 
     private static void listDevices() {
         System.out.println("\nAll Registered Devices (sorted):");
-        var devices = networkManager.getAllDevicesSorted();
+        var devices = deviceService.getAllDevicesSorted();
         if (devices.isEmpty()) {
             System.out.println("(no devices registered)");
             return;
@@ -86,7 +91,7 @@ public class NetworkCLIProject {
     private static void retrieveDeviceByMac() {
         System.out.print("\nEnter MAC address: ");
         String mac = scanner.nextLine().trim();
-        Device d = networkManager.getDeviceByMac(mac);
+        Device d = deviceService.getDeviceByMac(mac);
         if (d == null) {
             System.out.println("Device not found.");
         } else {
@@ -98,21 +103,21 @@ public class NetworkCLIProject {
 
     private static void printFullTopology() {
         System.out.println();
-        networkManager.printFullTopology();
+        deviceService.printFullTopology();
     }
 
     private static void printTopologyFromMac() {
         System.out.print("\nEnter MAC address to start from: ");
         String mac = scanner.nextLine().trim();
-        networkManager.printTopologyFrom(mac);
+        deviceService.printTopologyFrom(mac);
     }
     private static void loadFromFile() {
-        String path = "devices.json";
+        String path = "src/main/resources/devices.json";
         try {
             var deviceInputs = fileLoader.loadFromJson(path);
             for (var input : deviceInputs) {
                 DeviceType type = DeviceType.valueOf(input.deviceType.toUpperCase());
-                networkManager.registerDevice(type, input.macAddress,
+                deviceService.registerDevice(type, input.macAddress,
                         input.uplinkMacAddress == null || input.uplinkMacAddress.isEmpty()
                                 ? null
                                 : input.uplinkMacAddress);
