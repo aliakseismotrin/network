@@ -70,5 +70,37 @@ public class NetworkManager implements DeviceAPI {
             printTopologyRecursive(child, level + 1);
         }
     }
+
+    public void printDeviceListTo(StringBuilder sb) {
+        sb.append("All Registered Devices (sorted):\n");
+        var devices = getAllDevicesSorted();
+        if (devices.isEmpty()) {
+            sb.append("(no devices registered)");
+            return;
+        }
+        devices.forEach(d -> sb.append(d.getType()).append(" - ").append(d.getMacAddress()).append("\n"));
+    }
+
+    public void printFullTopologyTo(StringBuilder sb) {
+        devices.values().stream()
+                .filter(d -> d.getUplink() == null)
+                .forEach(d -> appendTopologyRecursive(d, 0, sb));
+    }
+
+    public void printTopologyFromTo(String macAddress, StringBuilder sb) {
+        Device root = devices.get(macAddress);
+        if (root == null) {
+            sb.append("Device not found: ").append(macAddress);
+            return;
+        }
+        appendTopologyRecursive(root, 0, sb);
+    }
+
+    private void appendTopologyRecursive(Device device, int level, StringBuilder sb) {
+        sb.append("  ".repeat(level)).append("- ").append(device.getMacAddress()).append("\n");
+        for (Device child : device.getChildren()) {
+            appendTopologyRecursive(child, level + 1, sb);
+        }
+    }
 }
 
