@@ -91,13 +91,13 @@ public class NetworkProject {
     private static void retrieveDeviceByMac() {
         System.out.print("\nEnter MAC address: ");
         String mac = scanner.nextLine().trim();
-        Device d = deviceService.getDeviceByMac(mac);
-        if (d == null) {
+        Device device = deviceService.getDeviceByMac(mac);
+        if (device == null) {
             System.out.println("Device not found.");
         } else {
-            System.out.println("Found: " + d);
-            if (d.getUplink() != null)
-                System.out.println("Uplink: " + d.getUplink().getMacAddress());
+            System.out.println("Found: " + device);
+            if (device.getUplink() != null)
+                System.out.println("Uplink: " + device.getUplink().getMacAddress());
         }
     }
 

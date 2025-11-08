@@ -3,10 +3,12 @@ package network.service.impl;
 import network.model.DeviceType;
 import network.model.Device;
 import network.service.DeviceService;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class DeviceServiceImpl implements DeviceService {
     private final Map<String, Device> devices = new HashMap<>();
 
