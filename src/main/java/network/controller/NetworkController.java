@@ -1,6 +1,7 @@
 package network.controller;
 
 import network.model.DeviceType;
+import network.model.Device;
 import network.service.impl.DeviceServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/devices")
 public class NetworkController {
 
-    private final DeviceServiceImpl deviceService = new DeviceServiceImpl();
+    private final DeviceServiceImpl deviceService;
+
+    public NetworkController(DeviceServiceImpl deviceService) {
+        this.deviceService = deviceService;
+    }
 
     // Register device
     @PostMapping
@@ -34,8 +39,13 @@ public class NetworkController {
 
     // Retrieve device by MAC
     @GetMapping("/{mac}")
-    public String getDeviceByMac(@PathVariable String mac) {
-        return deviceService.getDeviceByMac(mac).toString();
+    public String getDeviceByMac(@PathVariable("mac") String mac) {
+        Device device = deviceService.getDeviceByMac(mac);
+        if (device == null) {
+            return "Device not found for MAC: " + mac;
+        } else {
+            return device.toString();
+        }
     }
 
     // Retrieve full topology
@@ -46,7 +56,7 @@ public class NetworkController {
 
     // Retrieve topology starting from a specific device
     @GetMapping("/topology/{mac}")
-    public String getTopologyFrom(@PathVariable String mac) {
+    public String getTopologyFrom(@PathVariable("mac") String mac) {
         return captureTopology(mac);
     }
 
